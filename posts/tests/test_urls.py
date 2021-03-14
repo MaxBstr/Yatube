@@ -141,7 +141,8 @@ class StaticURLTests(TestCase):
         )
         self.assertRedirects(
             response,
-            (f'/auth/login/?next=/{params["username"]}/{params["post_id"]}/edit/'),
+            (f'/auth/login/?next=/'
+             f'{params["username"]}/{params["post_id"]}/edit/'),
             status_code=302)
 
         # Для авторизованого чужого пользователя
