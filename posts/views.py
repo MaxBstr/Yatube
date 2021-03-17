@@ -45,7 +45,7 @@ def group_posts(request, slug):
 @login_required
 def new_post(request):
     form = PostForm(request.POST or None)
-    if request.method == 'POST' and form.is_valid():
+    if form.is_valid():
         post = form.save(commit=False)
         post.author = request.user
         post.save()
@@ -138,7 +138,7 @@ def add_comment(request, username, post_id):
     post = get_object_or_404(Post, author__username=username, pk=post_id)
     form = CommentForm(request.POST or None)
 
-    if request.method == 'POST' and form.is_valid():
+    if form.is_valid():
         comment = form.save(commit=False)
         comment.author = request.user
         comment.post = post
@@ -172,7 +172,7 @@ def profile_follow(request, username):
     author = get_object_or_404(User, username=username)
     cur_user = request.user
 
-    if cur_user.username != author.username:
+    if cur_user != author:
         Follow.objects.get_or_create(
             user=request.user,
             author=author

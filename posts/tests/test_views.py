@@ -60,7 +60,8 @@ class CommonViewsTests(TestCase):
         """ Тест корректного использования шаблонов """
         templates_pages_names = {
             'index.html': reverse('posts:index'),
-            'group.html': reverse('posts:group', kwargs={'slug': 'test-slug'}),
+            'group.html': reverse('posts:group', kwargs={
+                'slug': self.group.slug}),
             'new.html': reverse('posts:new_post')
         }
 
@@ -285,8 +286,8 @@ class CommonViewsTests(TestCase):
             response_after_clear.context['paginator'].count,
             response_before.context['paginator'].count)
 
-    def test_authorized_user_follow_unfollow(self):
-        """ Тестирование подписки/отписки авторизованным пользователем """
+    def test_authorized_user_follow(self):
+        """ Тестирование подписки авторизованным пользователем """
         new_user = User.objects.create(username='NewUser')
         new_authorized_client = Client()
         new_authorized_client.force_login(new_user)
@@ -300,6 +301,19 @@ class CommonViewsTests(TestCase):
         self.assertIsNotNone(follow_obj, (
             ' Пользователь не смог подписаться на пользователя '))
 
+    def test_authorized_user_unfollow(self):
+        """ Тестирование отписки авторизованным пользователем """
+        new_user = User.objects.create(username='NewUser')
+        new_authorized_client = Client()
+        new_authorized_client.force_login(new_user)
+
+        # Follow (works previous test)
+        new_authorized_client.get(reverse(
+            'posts:profile_follow',
+            kwargs={'username': self.user.username}
+        ))
+
+        # Unfollow
         new_authorized_client.get(reverse(
             'posts:profile_unfollow',
             kwargs={'username': self.user.username}
