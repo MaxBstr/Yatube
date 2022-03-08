@@ -23,9 +23,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '9ea2we(2(i3d+r4u%l+w%^vr5*z$i6ttq5kkeqn27j3c257pq!'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
+    "itmo-web-proj.herokuapp.com",
     "localhost",
     "127.0.0.1",
     "[::1]",
