@@ -1,1 +1,1 @@
-web: gunicorn testRekruto.wsgi --log-file -
+web: gunicorn yatube.wsgi --log-file -
